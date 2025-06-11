@@ -1,9 +1,9 @@
-import { Alert } from "@mui/material";
+import { Alert, Box, Typography } from "@mui/material";
 import queryString from "query-string";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
-import { PokemonList } from "../components";
+import { PokemonList, Search } from "../components";
 import { PokemonLayout } from "../layout/PokemonLayout";
 import { getPokemonsByName, startGettingPokemons } from "../../store/pokemons";
 
@@ -21,6 +21,7 @@ export const PokemonsPage = () => {
   useEffect(() => {
     if (q.length > 0) {
       dispatch(getPokemonsByName(q));
+      window.scrollTo(0, 0);
     } else {
       dispatch(startGettingPokemons(localPage));
     }
@@ -36,6 +37,10 @@ export const PokemonsPage = () => {
 
   return (
     <PokemonLayout title="Pokemones">
+      <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ width: '100%', mb: 2,}}>
+        <Typography variant="h6"></Typography>
+        <Search />
+      </Box>
       {q.length === 0 ? (
         <PokemonList
           pokemons={pokemons}

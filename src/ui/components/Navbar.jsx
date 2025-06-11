@@ -2,7 +2,6 @@ import { useDispatch } from "react-redux"
 import { NavLink, useNavigate } from "react-router-dom";
 import { beginLogout } from "../../store/auth/thunks";
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
-import { Search } from "../../pokemon/components";
 
 export const Navbar = () => {
 
@@ -35,7 +34,6 @@ export const Navbar = () => {
               > 
                 Pokemones Modificados
               </NavLink>
-              <Search/>
           </Box>
             <Button color="inherit" onClick={onLogout}>Salir</Button>
         </Toolbar>

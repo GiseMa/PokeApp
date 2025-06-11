@@ -12,8 +12,8 @@ const formData = {
 }
 
 const formValidations = {
-    email: [(value) => value.includes('@'), 'El correo es obligatorio y debe de tener un @'],
-    password: [(value) => value.length >= 6, 'La contraseña debe de tener mas de cinco caracteres'],
+    email: [(value) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value), 'El correo es obligatorio y debe incluir el @ y su dominio'],
+    password: [(value) => value.length >= 6, 'La contraseña debe de tener seis o mas caracteres'],
 }
 export const LoginPage = () => {
 
@@ -43,14 +43,14 @@ export const LoginPage = () => {
           <Grid size={{xs: 10}} sx={{mt: 2}}>
             <TextField
               label="Correo"
-              type="email"
+              type="text"
               placeholder="correo@google.com"
               fullWidth
               name="email"
               value={email}
               error={!!emailValid && formSubmitted}
               onChange={onInputChange}
-              helperText={emailValid}
+              helperText={formSubmitted ? emailValid : ''}
             />
           </Grid>
           <Grid size={{xs: 10}} sx={{mt: 2}}>
@@ -63,7 +63,7 @@ export const LoginPage = () => {
               value={password}
               error={!!passwordValid && formSubmitted}
               onChange={onInputChange}
-              helperText={passwordValid}
+              helperText={formSubmitted ? passwordValid : ''}
               />
           </Grid>
           <Grid container spacing={2} sx={{mb: 2, mt: 1}} display={!!errorMessage ? '' : 'none'}>

@@ -9,6 +9,7 @@ export const authSlice = createSlice({
         email: null,
         password: null,
         errorMessage: null,
+        isRegistering: false,
     },
     reducers: {
         login: (state, {payload}) => {
@@ -23,14 +24,19 @@ export const authSlice = createSlice({
             state.uid = null;
             state.displayName = null;
             state.email = null;
-            state.errorMessage = payload?.errorMessage;
+            if(payload?.errorMessage){
+                state.errorMessage = payload.errorMessage;
+            }
         },
         checkingCredentials: (state) => {
             state.status = 'checking';
         },
         clearErrorMessage: (state) => {
             state.errorMessage = null;
-        },  
+        }, 
+        setIsRegistering: (state, {payload}) => {
+            state.isRegistering = payload;
+        }
     }
 });
 
@@ -39,4 +45,5 @@ export const {
     logout,
     checkingCredentials,
     clearErrorMessage,
+    setIsRegistering
 } = authSlice.actions;
