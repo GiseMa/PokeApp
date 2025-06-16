@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography, } from "@mui/material";
+import { Box, Button, CircularProgress, Grid, Typography, } from "@mui/material";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
 import { PokemonLayout } from "../layout/PokemonLayout";
 import { useApiData } from "../hooks/useApiData";
@@ -9,10 +9,10 @@ export const PokemonDetailPage = () => {
     const {id} = useParams();
     const navigate = useNavigate();
     const location = useLocation();
-    
+
     const isModified = location.pathname.includes('/modificado/');
     const {pokemon: apiPokemon, evolutionData: apiEvolutionData} = useApiData(id);
-    
+
     const {pokemon: modifiedPokemon, evolutionData: modifiedEvolutionData} = isModified
     ? useModifiedData(id)
     : {pokemon: null, evolutionData: {evolutionsOnly: [], involutionsOnly: []}};
@@ -20,8 +20,7 @@ export const PokemonDetailPage = () => {
     const pokemon = isModified ? modifiedPokemon : apiPokemon;
     const evolutionData = isModified ? modifiedEvolutionData : apiEvolutionData;
 
-
-   const onNavigateBack = () => {
+    const onNavigateBack = () => {
         if (location.state?.fromPokemon && !location.state?.fromSearch) {
             navigate(-1);
         } else {
@@ -29,13 +28,13 @@ export const PokemonDetailPage = () => {
         }
     };
 
-
-    if (!pokemon) return <p>Cargando...</p>;
+    if (!pokemon) return <CircularProgress/>;
 
     const nameUpperCase = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
     
   return (
   <PokemonLayout>
+ 
     <Box mt={1} sx={{ width: '100%' }}> 
         <Grid container spacing={2} alignItems="flex-start">
             <Grid grid={{xs: 12, md: 4}} sx={{ mx: 'auto', my: 2 }} display="flex" flexDirection="column" alignItems="flex-start">

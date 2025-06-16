@@ -14,9 +14,7 @@ export const PokemonLayout = ({children, title = ''}) => {
                 backgroundSize: 'cover',
                 backgroundAttachment: 'fixed',
                 padding: 5,
-                width: '100%',
-                position: 'relative',
-        
+                width: '100%',        
             }}
         >
             <Typography variant="h4" sx={{mb: 0, borderRadius: 2, textAlign: 'center'}}>

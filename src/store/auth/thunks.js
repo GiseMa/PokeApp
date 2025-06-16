@@ -1,7 +1,8 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { loginDB, logoutDB, registerUserDB } from "../../db/provider";
-import { checkingCredentials, login, logout } from "./authSlice"
+import { checkingCredentials, login, logout, setIsRegistering } from "./authSlice"
 import { firebaseAuth } from "../../db/config";
+import { resetPokemons } from "../pokemons";
 
 export const checkingAuthentication = () => {
     return async(dispatch) => {
@@ -11,12 +12,17 @@ export const checkingAuthentication = () => {
 
 export const createUser = ({displayName, email, password}) => {
     return async(dispatch) => {
-        dispatch(checkingCredentials());
+        dispatch(setIsRegistering("registering"));
         const result = await registerUserDB({displayName, email, password});
 
-        if(!result.ok) return dispatch(logout({errorMessage: result.errorMessage}));
+        if(!result.ok) {
+          dispatch(setIsRegistering("not-authenticated"));
+          return dispatch(logout({errorMessage: result.errorMessage}));  
+        } 
         await logoutDB();
-        dispatch(logout(result));
+        localStorage.removeItem('token'); 
+
+        dispatch(logout());
     }
 };
 
@@ -36,6 +42,7 @@ export const beginLogout = () => {
         await logoutDB();
         dispatch(logout());
         localStorage.removeItem('token');
+        dispatch(resetPokemons());
     }
 };
 

@@ -2,7 +2,7 @@ import { doc, setDoc } from "firebase/firestore/lite";
 import { pokeApi } from "../../api/pokeApi";
 import { firebaseDB } from "../../db/config";
 import { loadPokemonsDB } from "../../db/loadPokemonsDB";
-import { onUpdatePokemon, setAllPokemonNames, setMessagedSaved, setModifiedPokemons, setPokemons, setPreloaded, setSaving, startLoadingPokemons } from "./pokemonSlice"
+import { onUpdatePokemon, setAllPokemonNames, setIsLoading, setMessagedSaved, setModifiedPokemons, setPokemons, setPreloaded, setSaving, startLoadingPokemons } from "./pokemonSlice"
 
 export const startGettingPokemons = (page = 0) => {
     return async (dispatch) => {
@@ -94,12 +94,13 @@ export const startSavingPokemon = (updatedPokemon) => {
 export const startLoadingPokemonsByUser = () => {
     return async(dispatch, getState) => {
         const {uid} = getState().auth;
-
+        dispatch(setIsLoading(true));
          if(!uid) {
             console.error('El UID del usuario no existe');
             return;
         }
         const pokemons = await loadPokemonsDB(uid);
         dispatch(setModifiedPokemons(pokemons));
+        dispatch(setIsLoading(false));
     }
 }

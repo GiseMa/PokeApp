@@ -1,4 +1,4 @@
-import { Alert, Button, Grid, Link, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, CircularProgress, Grid, Link, TextField, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux"
 import {Link as RouterLink, useNavigate} from 'react-router-dom';
 import { useEffect, useMemo, useState } from "react";
@@ -15,7 +15,7 @@ const formData = {
 
 const formValidations = {
     displayName: [(value) => value.length >= 3, 'El nombre debe de tener al menos tres caracteres'],
-    email: [(value) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value), 'El correo es obligatorio y debe incluir el @ y su dominio'],
+    email: [(value) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value), 'El correo debe incluir el @ y su dominio'],
     password: [(value) => value.length >= 6, 'La contraseña debe de tener seis o mas caracteres'],
 }
 
@@ -36,9 +36,12 @@ export const RegisterPage = () => {
   } = useForm(formData, formValidations);
 
   useEffect(() => {
-  if (formSubmitted && status === 'authenticated') {
-    navigate('/auth/login');
-  }
+  if (formSubmitted && status === 'not-authenticated') return;
+  if (formSubmitted && status === "registering") {
+    console.log(status)
+      navigate('/auth/login');
+      console.log(status)
+    }
   }, [status, formSubmitted, navigate]);
 
   const onSubmit = (event) => {
@@ -48,6 +51,17 @@ export const RegisterPage = () => {
     dispatch(clearErrorMessage());
     dispatch(createUser(formState));
   };
+
+
+  if ( status === 'registering' ) {
+    return (
+      <AuthLayout title="Cargando...">
+        <Box  display="flex" justifyContent="center" alignItems="center" sx={{ height: "60vh", width: "100%" }}>
+          <CircularProgress size={80}/>
+        </Box>
+      </AuthLayout>
+    );
+  }
 
   return (
     <AuthLayout title="Registro">

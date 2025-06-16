@@ -9,7 +9,6 @@ export const authSlice = createSlice({
         email: null,
         password: null,
         errorMessage: null,
-        isRegistering: false,
     },
     reducers: {
         login: (state, {payload}) => {
@@ -34,9 +33,10 @@ export const authSlice = createSlice({
         clearErrorMessage: (state) => {
             state.errorMessage = null;
         }, 
-        setIsRegistering: (state, {payload}) => {
-            state.isRegistering = payload;
-        }
+        setIsRegistering: (state) => {
+            state.status = 'registering';
+        },
+        
     }
 });
 

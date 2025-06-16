@@ -8,16 +8,16 @@ export const PokemonApp = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(checkingAuthentication());
 
-    const checkAuthToken = setInterval(() => {
+   const checkAuthToken = setInterval(() => {
       const token = localStorage.getItem('token');
-      const authState = localStorage.getItem('authState');
-      if (!token && authState !== 'checking' && authState !== 'not-authenticated') {
+      if (!token) {
         dispatch(beginLogout());
       }
     }, 5000)
+
+  useEffect(() => {
+    dispatch(checkingAuthentication());
     return () => clearInterval(checkAuthToken); 
   }, [dispatch]);
   
@@ -31,3 +31,4 @@ export const PokemonApp = () => {
   )
 };
 
+ 

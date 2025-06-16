@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { AuthLayout } from "../layout/AuthLayout";
 import { useForm } from "../../hooks/useForm";
 import { beginLogin } from "../../store/auth/thunks";
+import { clearErrorMessage } from "../../store/auth/authSlice";
 
 const formData = {
     email: '',
@@ -12,7 +13,7 @@ const formData = {
 }
 
 const formValidations = {
-    email: [(value) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value), 'El correo es obligatorio y debe incluir el @ y su dominio'],
+    email: [(value) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value), 'El correo debe incluir el @ y su dominio'],
     password: [(value) => value.length >= 6, 'La contraseña debe de tener seis o mas caracteres'],
 }
 export const LoginPage = () => {
@@ -87,7 +88,7 @@ export const LoginPage = () => {
             </Grid>
           </Grid>
           <Grid container direction='row' justifyContent='end' size={12}>
-            <Link component={RouterLink} color='inherit' to="/auth/registro">
+            <Link component={RouterLink} color='inherit' to="/auth/registro" onClick={() => dispatch(clearErrorMessage())}>
               Crear una cuenta
             </Link>
           </Grid>

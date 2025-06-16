@@ -3,10 +3,11 @@ import { PokemonCard } from "./PokemonCard";
 
 export const PokemonList = ({
   pokemons,
-  isModified,
+  isLoading,
   page,
-  totalPages,
   onChangePage,
+  totalPages,
+  isModified,
   emptyMessage = "",
 }) => {
     
@@ -19,11 +20,11 @@ export const PokemonList = ({
   return (
     <Stack
       direction="column"
-      sx={{ justifyContent: "center", alignItems: "center",  width: '100%', padding: 2}}
+      sx={{ justifyContent: "center", alignItems: "center",  width: '100%', padding: 2, }}
     >
       {
-        pokemons.length === 0 && (
-        <Alert severity="error" sx={{ top: '30%', left: '40%', position: "absolute", padding: 7 }}>
+        pokemons.length === 0 && !isLoading && (
+        <Alert severity="error" sx={{ top: '30%', left: '40%',  padding: 7 }}>
           {emptyMessage}
         </Alert>
         )
@@ -34,7 +35,7 @@ export const PokemonList = ({
             {pokemons.map((p) => (
               <Grid
                 key={p.id}
-                grid={{ xs: 12, sm: 6, md: 4, lg: 2 }}
+                grid={{ xs: 1, sm: 6, md: 3, lg: 2 }}
                 sx={{ display: "flex", justifyContent: "flex-start" }}
               >
                 <PokemonCard {...p} isModified={isModified} />

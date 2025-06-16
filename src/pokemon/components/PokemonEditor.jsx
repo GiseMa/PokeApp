@@ -1,9 +1,10 @@
-import { Alert, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, TextField, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Typography } from "@mui/material";
 import { Box, Grid } from "@mui/system";
 import { useSelector } from "react-redux";
 import { useEffect, useMemo, useState } from "react";
 import { PokemonLayout } from "../layout/PokemonLayout";
 import { useForm } from "../../hooks/useForm";
+import { useNavigate } from "react-router-dom";
 
 const formValidations = {
     name: [(value) => value.length > 0, 'El nombre es obligatorio'],
@@ -16,8 +17,7 @@ export const PokemonEditor = ({pokemon, evolutionsOnly = [], involutionsOnly = [
  
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [confirmationForm, setConfirmationForm] = useState(false);
-  const [openSnackBar, setOpenSnackBar] = useState(false);
-  const {messageSaved} = useSelector(state => state.pokemons);
+  const navigate = useNavigate(); 
 
   const initialForm = useMemo(() => ({
     name: pokemon.name,
@@ -37,10 +37,6 @@ export const PokemonEditor = ({pokemon, evolutionsOnly = [], involutionsOnly = [
     onInputChange, formState, isFormValid,
   } = useForm(initialForm, formValidations);
 
-  useEffect(() => {
-    if(messageSaved) setOpenSnackBar(true);
-  }, [messageSaved, setOpenSnackBar]);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     if(!isFormValid) return;
@@ -50,7 +46,6 @@ export const PokemonEditor = ({pokemon, evolutionsOnly = [], involutionsOnly = [
   const handleConfirmSave = () => {
     setConfirmationForm(false);
     setFormSubmitted(true);
-    console.log('Guardando cambios', formState);
 
     const updatedPokemon = {
       ...pokemon,
@@ -62,15 +57,11 @@ export const PokemonEditor = ({pokemon, evolutionsOnly = [], involutionsOnly = [
       involutions: involutions.split(',').map(i => i.trim()), 
     }
     onSave(updatedPokemon);
+    navigate("/modificados");
   };
 
   const handleCancelSave = () => {
     setConfirmationForm(false);
-  };
-
-  const handleCloseSnackbar = ( reason) => {
-    if(reason === 'clickaway') return;
-    setOpenSnackBar(false);
   };
 
   return (
@@ -131,16 +122,6 @@ export const PokemonEditor = ({pokemon, evolutionsOnly = [], involutionsOnly = [
                   <Button onClick={handleConfirmSave} color="primary">Guardar</Button>
                 </DialogActions> 
               </Dialog>
-              <Snackbar
-                open={openSnackBar}
-                autoHideDuration={3000}
-                onClose={handleCloseSnackbar}
-                anchorOrigin={{vertical: "bottom", horizontal: "right"}}
-                >
-                <Alert onClose={handleCloseSnackbar} severity="success" sx={{widht: "100%"}}>
-                  ¡Cambios guardados correctamente!
-                </Alert>
-            </Snackbar>
           </Grid>
         </Grid>
       </Box>    

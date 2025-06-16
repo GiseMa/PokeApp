@@ -52,6 +52,12 @@ export const pokemonSlice = createSlice({
         setPreloaded: (state) => {
             state.isPreloaded = true;
         },
+        resetPokemons: (state) => {
+            state.modifiedPokemons = [];
+        },
+        setIsLoading: (state, {payload}) => {
+            state.isLoading = payload;
+        } 
         
     }
 });
@@ -67,4 +73,6 @@ export const {
     setAllPokemonNames,
     setModifiedPokemons,
     setPreloaded,
+    resetPokemons,
+    setIsLoading,
 } = pokemonSlice.actions;

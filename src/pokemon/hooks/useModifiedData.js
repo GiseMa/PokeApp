@@ -11,7 +11,6 @@ export const useModifiedData = (id) => {
 
     useEffect(() => {
         const fetchModifiedData = () => {
-            console.log('Buscando pokemon modificado');
             const modifiedPokemon = modifiedPokemons.find(p => p.id === id);
             if (modifiedPokemon) {
                 setPokemon(modifiedPokemon);

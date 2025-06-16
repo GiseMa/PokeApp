@@ -27,8 +27,7 @@ export const PokemonCard = ({id, name, isModified, sprite, ...rest}) => {
   return (
     <Card
         onClick={handleNavigate}
-        sx={{width: "100%",
-             maxWidth: 180,
+        sx={{width: 180,
              height: 250,
              display: "flex",
              flexDirection: "column",
@@ -39,7 +38,7 @@ export const PokemonCard = ({id, name, isModified, sprite, ...rest}) => {
         >
         <Grid container>
             <CardContent size={{sm: 6, md: 6, lg: 3}} sx={{mt: 2, display: "flex", flexDirection: "column", alignItems: "center"}}>
-                <img src={sprite} alt={name} className="card-img" style={{width: "100px", height: "100px"}} />
+                <img src={sprite} alt={name} className="card-img" style={{width: "100px", height: "100px", objectFit: "contain"}} />
                 <Typography variant="h6" align="center">{nameUpperCase}</Typography>
                 <Typography align="center">#{id}</Typography>
             </CardContent>
