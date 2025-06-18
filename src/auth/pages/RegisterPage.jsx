@@ -38,9 +38,9 @@ export const RegisterPage = () => {
   useEffect(() => {
   if (formSubmitted && status === 'not-authenticated') return;
   if (formSubmitted && status === "registering") {
-    console.log(status)
+    console.log("Primero ", status)
       navigate('/auth/login');
-      console.log(status)
+      console.log("Segundo ", status)
     }
   }, [status, formSubmitted, navigate]);
 
@@ -49,11 +49,13 @@ export const RegisterPage = () => {
     setFormSubmitted(true);
     if(!isFormValid) return;
     dispatch(clearErrorMessage());
+    console.log("Tercero  ", status)
     dispatch(createUser(formState));
+    console.log("Cuarto ", status)
   };
 
 
-  if ( status === 'registering' ) {
+  if ( status === 'registering'  ) {
     return (
       <AuthLayout title="Cargando...">
         <Box  display="flex" justifyContent="center" alignItems="center" sx={{ height: "60vh", width: "100%" }}>

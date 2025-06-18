@@ -12,16 +12,14 @@ export const checkingAuthentication = () => {
 
 export const createUser = ({displayName, email, password}) => {
     return async(dispatch) => {
-        dispatch(setIsRegistering("registering"));
+        dispatch(setIsRegistering('registering'));
         const result = await registerUserDB({displayName, email, password});
-
+        
         if(!result.ok) {
-          dispatch(setIsRegistering("not-authenticated"));
+          dispatch(setIsRegistering('not-authenticated'));
           return dispatch(logout({errorMessage: result.errorMessage}));  
         } 
         await logoutDB();
-        localStorage.removeItem('token'); 
-
         dispatch(logout());
     }
 };

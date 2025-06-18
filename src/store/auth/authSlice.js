@@ -33,8 +33,8 @@ export const authSlice = createSlice({
         clearErrorMessage: (state) => {
             state.errorMessage = null;
         }, 
-        setIsRegistering: (state) => {
-            state.status = 'registering';
+        setIsRegistering: (state, {payload}) => {
+            state.status = payload;
         },
         
     }

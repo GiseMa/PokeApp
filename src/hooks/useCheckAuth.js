@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { firebaseAuth } from "../db/config";
 import { login, logout } from "../store/auth/authSlice";
 
-
 export const useCheckAuth = () => {
 
   const {status} = useSelector(state => state.auth);
